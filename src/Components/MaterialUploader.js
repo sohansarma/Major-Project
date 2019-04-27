@@ -69,7 +69,7 @@ class Model extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <Button style={{margin:'16px'}} variant="outlined" color="primary" onClick={this.handleClickOpen}>
+        <Button className="common_button_style" onClick={this.handleClickOpen}>
           Post material
         </Button>
         {/* <Button className='model-align' variant="outlined" color="primary" onClick={this.handleClickOpen}>

@@ -70,7 +70,7 @@ class QueryModel extends React.Component {
         {/* <Button style={{margin:'16px'}} variant="outlined" color="primary" onClick={this.handleClickOpen}>
           Post Query
         </Button> */}
-        <Button className='model-align' variant="outlined" color="primary" onClick={this.handleClickOpen}>
+        <Button className="common_button_style" onClick={this.handleClickOpen}>
           Post Query
         </Button>
         <Dialog

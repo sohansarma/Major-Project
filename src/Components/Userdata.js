@@ -5,7 +5,10 @@ import './style.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Button from '@material-ui/core/Button';
 
+
+
 const Main = () => {
+
 return(
     <div>
          <main>
@@ -19,7 +22,7 @@ return(
                           <div className="user-profile">
                             <div className="username-dt">
                               <div className="usr-pic">
-                                {/* <img src="images/resources/user-pic.png" alt /> */}
+                                <img src="images/resources/user-pic.png" alt />
                               </div>
                             </div>{/*username-dt end*/}
                             <div className="user-specs">
@@ -37,7 +40,7 @@ return(
                               <span>155</span>
                             </li>
                             <li>
-                              <a href="#" title>View Profile</a>
+                              <a href="" title>View Profile</a>
                             </li>
                           </ul>
                         </div>{/*user-data end*/}
@@ -171,8 +174,8 @@ return(
                                 <li><span>7th sem</span></li>
                               </ul>
                               <p>If you want to be Pro in PHP programming get ahead with the Best material that are taught in SRM... <a href="#" title>view more</a></p>
-                              <button style={{margin:'5px'}}>View</button>
-                              <button style={{margin:'5px'}}>Download</button>
+                              <button style={{marginLeft:'0px'}}className="common_button_style button_padding_margin">View</button>
+                              <button className="common_button_style button_padding_margin">Download</button>
                               <ul className="skill-tags">
                                 <li><a href="#" title>#SRM</a></li>
                                 <li><a href="#" title>#PHP</a></li>
@@ -222,7 +225,7 @@ return(
                               <ul className="bk-links">
                                 <li><a href="#" title><i className="la la-bookmark" /></a></li>
                                 <li><a href="#" title><i className="la la-envelope" /></a></li>
-                                <li><a href="#" title className="bid_now">Bid Now</a></li>
+                                {/* <li><a href="#" title className="bid_now">Bid Now</a></li> */}
                               </ul>
                             </div>
                             <div className="job_descp">
@@ -232,8 +235,8 @@ return(
                                 <li><span>7th SEM</span></li>
                               </ul>
                               <p>If you want to be Pro in PHP programming get ahead with the Best material that are taught in SRM... <a href="#" title>view more</a></p>
-                              <button style={{margin:'5px'}}>View</button>
-                              <button style={{margin:'5px'}}>Download</button>
+                              <button style={{marginLeft:'0px'}}className="common_button_style button_padding_margin">View</button>
+                              <button className="common_button_style button_padding_margin">Download</button>
                               <ul className="skill-tags">
                                 <li><a href="#" title>#HTML</a></li>
                                 <li><a href="#" title>#PHP</a></li>
@@ -292,8 +295,8 @@ return(
                                   <li><span>2nd SEM</span></li>
                                 </ul>
                                 <p>If you want to be Pro in PHP programming get ahead with the Best material that are taught in SRM... <a href="#" title>view more</a></p>
-                                <button>View</button>
-                                <button>Download</button>
+                                <button style={{marginLeft:'0px'}}className="common_button_style button_padding_margin">View</button>
+                              <button className="common_button_style button_padding_margin">Download</button>
                                 <ul className="skill-tags">
                                   <li><a href="#" title>#SRM</a></li>
                                   <li><a href="#" title>#MATHS</a></li>
@@ -385,10 +388,10 @@ return(
                       <div className="right-sidebar">
                         <div className="widget widget-about">
                           {/* <img src="images/wd-logo.png" alt /> */}
-                          <h3>WorkWisely</h3>
+                          {/* <h3>WorkWisely</h3> */}
                           <span>Get Quality materials</span>
                           <div className="sign_link">
-                            <h3><a href="#" title>Sign up</a></h3>
+                            {/* <h3><a href="#" title>Sign up</a></h3> */}
                             <a href="#" title>Learn More</a>
                           </div>
                         </div>{/*widget-about end*/}
