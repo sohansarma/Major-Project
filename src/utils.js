@@ -1,0 +1,20 @@
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+
+export const BASEURL = `${API_ENDPOINT}/api`;
+export const AUTH_URL = `${BASEURL}/auth`;
+export const FEED_URL = `${AUTH_URL}/feed`;
+export const LOGIN_URL = `${AUTH_URL}/login`;
+export const REGISTER_URL = `${AUTH_URL}/register`;
+export const POST_URL = `${AUTH_URL}/post`;
+export const POST_CREATE_URL = `${POST_URL}/create`;
+export const POST_LIKE_URL = `${POST_URL}/like/`;
+export const POST_KEYWORD_URL = `${POST_URL}/keyword/`;
+export const COMMENT_URL = `${AUTH_URL}/comment`;
+export const COMMENT_CREATE_URL = `${COMMENT_URL}/create`;
+export const KEYWORD_URL = `${AUTH_URL}/keyword`;
+export const KEYWORD_SEARCH_URL = `${KEYWORD_URL}/`;
+export const ME_URL = `${AUTH_URL}/me`;
+export const USER_URL = `${AUTH_URL}/user`;
+export const USER_SINGLE_URL = `${USER_URL}/`;
+export const USER_PROFILE_PICTURE_URL = `${USER_URL}/update/profilePicture`;
+export const USER_FOLLOW_URL = `${USER_URL}/follow/`;
