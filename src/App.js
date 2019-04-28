@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
-import Signin from './components/Signin/Signin';
-import Register from './components/Register/Register';
+import Signin from './Components/Signin';
+import Register from './Components/Register';
 import Navigation from './Components/Navigation';
 import Dashboard from './Components/Dashboard';
 import Main from './Components/Userdata';
