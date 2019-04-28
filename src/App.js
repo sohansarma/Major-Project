@@ -1,65 +1,59 @@
-import React, { Component } from 'react';
+import React, { Component, useReducer } from 'react';
 // import logo from './logo.svg';
-import Signin from './Components/Signin';
+import Login from './Components/Signin';
 import Register from './Components/Register';
 import Navigation from './Components/Navigation';
 import Dashboard from './Components/Dashboard';
 import Main from './Components/Userdata';
 import MaterialUploader from './Components/MaterialUploader';
 import QueryModel from './Components/Query';
+import { Snackbar, CircularProgress } from '@material-ui/core';
 import './App.css';
 import './Components/style.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Profile from './Components/userprofile';
-
-class App extends Component {
-
-	constructor() {
-    super();
-    this.state = {
-      input: '',
-      imageUrl: '',
-      box: {},
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      }
-    }
-  }
-
-   onRouteChange = (route) => {
-    if(route === 'signout'){
-      this.setState({isSignedIn: false})
-    }else if (route === 'home'){
-      this.setState({isSignedIn: true})
-    }
-    this.setState({route: route});
-  }
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+ } from 'react-router-dom';
+ import { initalData, reducer, } from './mainReducer';
 
 
-  render() {
-  	 const {isSignedIn,route} = this.state;
-    return (
-      <div className="App">
-      <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
-       { route === 'home'
-          ? <div>
-           <Main />
-           </div> 
-          : (
-            route === 'signin' 
-            ? <Signin onRouteChange={this.onRouteChange}/>
-            : <Register onRouteChange={this.onRouteChange}/>
-            )
-        }
-      </div>
-    );
+const RedirectToLogin = () => <Redirect to="/login" />;
+
+
+export const PrivateRoute = (...props) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    return <Route {...props} />
+  } else {
+    return <RedirectToLogin />;
   }
 }
+
+const App = () => {
+  const [ state, dispatch ] = useReducer(reducer, initalData);
+  return (
+    <div className="App">
+      {state.loading && <CircularProgress />}
+      <Snackbar
+        open={state.error}
+        message={state.errorMessage}
+      />
+      <Router>
+        <Route path="/" component={(router, context) => <Navigation {...router} isSignedIn={true}/>} />
+        <Switch>
+          <Route exact path="/" component={RedirectToLogin} />
+          <PrivateRoute exact path="/home" component={(router, context) => <Main {...router} dispatch={dispatch} stateTree={state} />} />
+          <Route exact path="/register" component={(router, context) => <Register {...router} dispatch={dispatch} />} />
+          <Route exact path="/login" component={(router, context) => <Login {...router} dispatch={dispatch} error={state.error} errorMessage={state.errorMessage} />} />
+        </Switch>
+      </Router>
+    </div>
+  );
+}
+
 
 export default App;
