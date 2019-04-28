@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
-import Signin from './components/Signin/Signin';
-import Register from './components/Register/Register';
+import Signin from './Components/Signin';
+import Register from './Components/Register';
 import Navigation from './Components/Navigation';
 import Dashboard from './Components/Dashboard';
 import Main from './Components/Userdata';
@@ -32,16 +32,6 @@ class App extends Component {
     }
   }
 
-loadUser = (data) => {
-    this.setState({user:{
-        id: data.id,
-        name: data.name,
-        email: data.email,
-        entries: data.entries,
-        joined: data.joined
-    }})
-   }
-
    onRouteChange = (route) => {
     if(route === 'signout'){
       this.setState({isSignedIn: false})
@@ -53,11 +43,20 @@ loadUser = (data) => {
 
 
   render() {
+  	 const {isSignedIn,route} = this.state;
     return (
-      <div>
-      <Navigation />
-      <Main />
-      {/* <Profile /> */}
+      <div className="App">
+      <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+       { route === 'home'
+          ? <div>
+           <Main />
+           </div> 
+          : (
+            route === 'signin' 
+            ? <Signin onRouteChange={this.onRouteChange}/>
+            : <Register onRouteChange={this.onRouteChange}/>
+            )
+        }
       </div>
     );
   }
