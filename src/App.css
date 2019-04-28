@@ -39,3 +39,7 @@
  justify-content: flex-end!important;
   float: none!important;
 }
+
+.auth__style{
+  float: none!important;
+}
