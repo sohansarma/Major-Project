@@ -128,10 +128,9 @@ class Main extends React.Component {
                           <div className="suggestions-list">
                             {suggestions && suggestions.length > 0 &&
                               suggestions.map(keyword => (
-                                <div key={keyword.text} className="suggestion-usd">
-                                  <div className="sgt-text">
-                                    <h4>{keyword.text}</h4>
-                                    <button
+                                <div key={keyword.text} className="suggestion_style d-flex align-items-center">
+                                    <div className="text_style">{keyword.text}</div>
+                                    <button className="common_button_style justify-content-end"
                                       onClick={() => {
                                         const token = localStorage.getItem("token");
                                         followKeyWord(keyword._id, token)
@@ -142,8 +141,6 @@ class Main extends React.Component {
                                     >
                                       Follow
                                     </button>
-                                  </div>
-                                  <span><i className="la la-plus" /></span>
                                 </div>
                               ))
                             }
@@ -160,9 +157,9 @@ class Main extends React.Component {
                               <li>
                               <MaterialUploader />
                              </li>
-                              <li>
+                              {/* <li>
                              <QueryModel />
-                              </li>
+                              </li> */}
                             </ul>
                           </div>{/*post-st end */}
                         </div>{/*post-topbar end */}
@@ -174,6 +171,7 @@ class Main extends React.Component {
                                 <div className="post_topbar">
                                   <div className="usy-dt">
                                     <div className="usy-name">
+                                    <img src="images/com.png" alt="i"/>
                                       <h3>{post.postedBy.name}</h3>
                                       <span>{moment(post.createdAt).fromNow()}</span>
                                     </div>
@@ -218,7 +216,7 @@ class Main extends React.Component {
                                       {/* <img src="images/liked-img.png" alt /> */}
                                       <span>{post.likes && post.likes.length}</span>
                                     </li> 
-                                    <li><a href="#" className="com"><img src="images/com.png" alt /> Comment {post.comments && post.comments.length || 0}</a></li>
+                                    <li><a href="#" className="com"> Comment {post.comments && post.comments.length || 0}</a></li>
                                   </ul>
                                 </div>
                               </div>
@@ -226,67 +224,6 @@ class Main extends React.Component {
                             })
                           }
                         
-                          <div className="post-bar">
-                            <div className="post_topbar">
-                              <div className="usy-dt">
-                                {/* <img src="images/resources/us-pic.png" alt /> */}
-                                <div className="usy-name">
-                                  <h3>John Doe</h3>
-                                  <span>3 min ago</span>
-                                </div>
-                              </div>
-                              <div className="ed-opts">
-                                <a href="#" className="ed-opts-open"><i className="la la-ellipsis-v" /></a>
-                                <ul className="ed-options">
-                                  <li><a href="#">Edit Post</a></li>
-                                  <li><a href="#">Unsaved</a></li>
-                                  <li><a href="#">Unbid</a></li>
-                                  <li><a href="#">Close</a></li>
-                                  <li><a href="#">Hide</a></li>
-                                </ul>
-                              </div>
-                            </div>
-                            <div className="epi-sec">
-                              <ul className="descp">
-                                <li><span>Epic Coder</span></li>
-                                <li><span>India</span></li>
-                              </ul>
-                              <ul className="bk-links">
-                                <li><a href="#"><i className="la la-bookmark" /></a></li>
-                                <li><a href="#"><i className="la la-envelope" /></a></li>
-                                {/* <li><a href="#" className="bid_now">Bid Now</a></li> */}
-                              </ul>
-                            </div>
-                            <div className="job_descp">
-                              <h3>WEB PROGRAMMING MATERIAL</h3>
-                              <ul className="job-dt">
-                                <li><a href="#">SRM IST</a></li>
-                                <li><span>7th SEM</span></li>
-                              </ul>
-                              <p>If you want to be Pro in PHP programming get ahead with the Best material that are taught in SRM... <a href="#">view more</a></p>
-                              <button style={{marginLeft:'0px'}}className="common_button_style button_padding_margin">View</button>
-                              <button className="common_button_style button_padding_margin">Download</button>
-                              <ul className="skill-tags">
-                                <li><a href="#" title>#HTML</a></li>
-                                <li><a href="#" title>#PHP</a></li>
-                                <li><a href="#" title>#CSS</a></li>
-                                <li><a href="#" title>#Javascript</a></li>
-                                <li><a href="#" title>#SRM</a></li> 	
-                              </ul>
-                            </div>
-                            <div className="job-status-bar">
-                              <ul className="like-com">
-                                <li>
-                                  <a href="#"><i className="la la-heart" /> Like</a>
-                                  {/* <img src="images/liked-img.png" alt /> */}
-                                  <span>25</span>
-                                </li> 
-                                <li><a href="#" title className="com">Comment 15</a></li>
-                              </ul>
-                              <a><i className="la la-eye" />Views 50</a>
-                            </div>
-                          </div>{/*post-bar end*/}
-                          {/*posty end*/}
                           <div className="process-comm">
                             <a href="#" title></a>
                           </div>{/*process-comm end*/}

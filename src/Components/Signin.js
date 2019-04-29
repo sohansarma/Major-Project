@@ -4,39 +4,6 @@ import {
 	setError
 } from '../mainReducer';
 
-// class Signin extends React.Component {
-//     constructor(props) {
-//     	super(props);
-//     	this.state = {
-//     		signInEmail: '',
-//     		signInPassword: ''
-//     	}
-//     }
-// 	onEmailChange = (event) => {
-//       this.setState({signInEmail: event.target.value})
-// 	}
-
-//     onPasswordChange = (event) => {
-// 		this.setState({signInPassword: event.target.value})
-// 	}
-
-// 	onButtonSignIn = () => {
-// 		fetch('http://localhost:3000/signin',{
-// 			method: 'post',
-// 			headers: {'content-type':'application/json'},
-// 			body: JSON.stringify({
-// 				email:this.state.signInEmail,
-// 				password:this.state.signInPassword
-// 			})
-// 		})
-// 		 .then(response => response.json())
-// 		 .then(user => {
-// 		 	if (user.id) {
-// 		 		this.props.loadUser(user);
-// 		 		this.props.onRouteChange('home');
-// 	          }
-// 		 	})
-// 		 }
 
 const Signin = ({
 	dispatch,

@@ -5360,3 +5360,23 @@ a:hover {
 	margin-bottom: 10px;
 	/* line-height: 0!important; */
 }
+
+.suggestion_style{
+	padding: 10px;
+	font-size: 14px;
+	white-space: nowrap;
+
+	
+}
+
+.text_style{
+	margin-right: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* max-width: 434px; */
+    position: unset;
+    display: flex;
+    /* min-width: 48px; */
+    /* justify-content: flex-end; */
+    width: 100%;
+}
