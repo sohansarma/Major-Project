@@ -1,17 +1,101 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MaterialUploader from './MaterialUploader';
 import QueryModel from './Query';
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import Button from '@material-ui/core/Button';
+import moment from 'moment';
+// import Button from '@material-ui/core/Button';
+import { getOwnProfile, getFeed, likeAPost, followKeyWord } from '../api';
+import download from 'downloadjs';
 
+const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
 
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
 
-const Main = () => {
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
 
-return(
-    <div>
-         <main>
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, {type: contentType});
+  return blob;
+}
+
+const getMimetype = (signature) => {
+  switch (signature) {
+      case '89504E47':
+          return 'image/png'
+      case '47494638':
+          return 'image/gif'
+      case '25504446':
+          return 'application/pdf'
+      case 'FFD8FFDB':
+      case 'FFD8FFE0':
+          return 'image/jpeg'
+      case '504B0304':
+          return 'application/zip'
+      default:
+          return 'Unknown filetype'
+  }
+}
+
+class Main extends React.Component {
+  state = {
+    feed: [],
+    suggestions: [],
+    user: {},
+  };
+  componentDidMount() {
+    const {
+      dispatch,
+      state,
+      history,
+    } = this.props;
+    console.log("I'm run again");
+    const token = localStorage.getItem("token");
+    if (!token) {
+      history.push("/");
+    } else {
+      this.fetchData(token)
+    }
+    // setUser(dispatch)(state.token).then(console.log);
+    // setFeed(dispatch)(state.token).then(console.log);
+  }
+
+  fetchData(token) {
+    Promise.all([ getOwnProfile(token), getFeed(token) ])
+      .then(([ profile, {posts, suggestions} ]) => {
+        this.setState({
+          user: profile,
+          feed: posts,
+          suggestions,
+        })
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+  }
+
+  render() {
+    const {
+      dispatch,
+      state,
+    } = this.props;
+    const {
+      user,
+      feed,
+      suggestions,
+    } = this.state;
+    return (
+      <div>
+        <main>
             <div className="main-section">
               <div className="container">
                 <div className="main-section-data">
@@ -22,25 +106,17 @@ return(
                           <div className="user-profile">
                             <div className="username-dt">
                               <div className="usr-pic">
-                                <img src="images/resources/user-pic.png" alt />
+                                {user.profilePicture && <img src={user.profilePicture} alt="" />}
                               </div>
                             </div>{/*username-dt end*/}
                             <div className="user-specs">
-                              <h3>John Doe</h3>
-                              <span>Graphic Designer at Self Employed</span>
+                              <h3>{user.name}</h3>
                             </div>
                           </div>{/*user-profile end*/}
                           <ul className="user-fw-status">
                             <li>
                               <h4>Following</h4>
-                              <span>34</span>
-                            </li>
-                            <li>
-                              <h4>Followers</h4>
-                              <span>155</span>
-                            </li>
-                            <li>
-                              <a href="" title>View Profile</a>
+                              <span>{user.following && user.following.length}</span>
                             </li>
                           </ul>
                         </div>{/*user-data end*/}
@@ -50,75 +126,29 @@ return(
                             <i className="la la-ellipsis-v" />
                           </div>{/*sd-title end*/}
                           <div className="suggestions-list">
-                            <div className="suggestion-usd">
-                              {/* <img src="images/resources/s1.png" alt /> */}
-                              <div className="sgt-text">
-                                <h4>Jessica William</h4>
-                                <span>Graphic Designer</span>
-                              </div>
-                              <span><i className="la la-plus" /></span>
-                            </div>
-                            <div className="suggestion-usd">
-                              {/* <img src="images/resources/s2.png" alt /> */}
-                              <div className="sgt-text">
-                                <h4>John Doe</h4>
-                                <span>PHP Developer</span>
-                              </div>
-                              <span><i className="la la-plus" /></span>
-                            </div>
-                            <div className="suggestion-usd">
-                              {/* <img src="images/resources/s3.png" alt /> */}
-                              <div className="sgt-text">
-                                <h4>Poonam</h4>
-                                <span>Wordpress Developer</span>
-                              </div>
-                              <span><i className="la la-plus" /></span>
-                            </div>
-                            <div className="suggestion-usd">
-                              {/* <img src="images/resources/s4.png" alt /> */}
-                              <div className="sgt-text">
-                                <h4>Bill Gates</h4>
-                                <span>C &amp; C++ Developer</span>
-                              </div>
-                              <span><i className="la la-plus" /></span>
-                            </div>
-                            <div className="suggestion-usd">
-                              {/* <img src="images/resources/s5.png" alt /> */}
-                              <div className="sgt-text">
-                                <h4>Jessica William</h4>
-                                <span>Graphic Designer</span>
-                              </div>
-                              <span><i className="la la-plus" /></span>
-                            </div>
-                            <div className="suggestion-usd">
-                              {/* <img src="images/resources/s6.png" alt /> */}
-                              <div className="sgt-text">
-                                <h4>John Doe</h4>
-                                <span>PHP Developer</span>
-                              </div>
-                              <span><i className="la la-plus" /></span>
-                            </div>
-                            <div className="view-more">
-                              <a href="#" title>View More</a>
-                            </div>
+                            {suggestions && suggestions.length > 0 &&
+                              suggestions.map(keyword => (
+                                <div key={keyword.text} className="suggestion-usd">
+                                  <div className="sgt-text">
+                                    <h4>{keyword.text}</h4>
+                                    <button
+                                      onClick={() => {
+                                        const token = localStorage.getItem("token");
+                                        followKeyWord(keyword._id, token)
+                                          .then(user => {
+                                            this.fetchData(token);
+                                          })
+                                      }}
+                                    >
+                                      Follow
+                                    </button>
+                                  </div>
+                                  <span><i className="la la-plus" /></span>
+                                </div>
+                              ))
+                            }
                           </div>{/*suggestions-list end*/}
                         </div>{/*suggestions end*/}
-                        <div className="tags-sec full-width">
-                          <ul>
-                            <li><a href="#" title>Help Center</a></li>
-                            <li><a href="#" title>About</a></li>
-                            <li><a href="#" title>Privacy Policy</a></li>
-                            <li><a href="#" title>Community Guidelines</a></li>
-                            <li><a href="#" title>Cookies Policy</a></li>
-                            <li><a href="#" title>Career</a></li>
-                            <li><a href="#" title>Language</a></li>
-                            <li><a href="#" title>Copyright Policy</a></li>
-                          </ul>
-                          <div className="cp-sec">
-                            {/* <img src="images/logo2.png" alt /> */}
-                            {/* <p><img src="images/cp.png" alt />Copyright 2017</p> */}
-                          </div>
-                        </div>{/*tags-sec end*/}
                       </div>{/*main-left-sidebar end*/}
                     </div>
                     <div className="col-lg-6 col-md-8 no-pd">
@@ -137,65 +167,64 @@ return(
                           </div>{/*post-st end */}
                         </div>{/*post-topbar end */}
                         <div className="posts-section">
-                          <div className="post-bar">
-                            <div className="post_topbar">
-                              <div className="usy-dt">
-                                {/* <img src="images/resources/us-pic.png" alt /> */}
-                                <div className="usy-name">
-                                  <h3>John Doe</h3>
-                                  <span>3 min ago</span>
+                          {feed && feed.length > 0 &&
+                            feed.map(post => {
+                              return (
+                                <div key={post._id} className="post-bar">
+                                <div className="post_topbar">
+                                  <div className="usy-dt">
+                                    <div className="usy-name">
+                                      <h3>{post.postedBy.name}</h3>
+                                      <span>{moment(post.createdAt).fromNow()}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="job_descp">
+                                  <h3>{post.title}</h3>
+                                  <ul className="job-dt">
+                                    <li><a href="#">{post.postedBy.college || ''}</a></li>
+                                    <li><span>{post.postedBy.semester || ''}</span></li>
+                                  </ul>
+                                  <p>{post.description}</p>
+                                  {post.files && post.files.length &&
+                                    <button
+                                      onClick={() => {
+                                        const { data, contentType } = post.files[0];
+                                        const url = `data:${contentType};base64,${data}`;
+                                        const fileFormat = contentType.split("/").slice(-1);
+                                        download(url, `${post.title || "Untitled"}.${fileFormat}`, contentType);
+                                      }}
+                                      className="common_button_style button_padding_margin">Download</button>  
+                                  }
+                                  <ul className="skill-tags">
+                                    {post.keywords && post.keywords.length > 0 &&
+                                      post.keywords.map(keyword => {
+                                        return (
+                                          <li key={keyword._id}><a href="#">{keyword.text}</a></li>
+                                        )
+                                      })  
+                                    } 	
+                                  </ul>
+                                </div>
+                                <div className="job-status-bar">
+                                  <ul className="like-com">
+                                    <li>
+                                      <a
+                                        onClick={() => {
+                                          const token = localStorage.getItem("token");
+                                          likeAPost(post._id, token);
+                                        }}
+                                      ><i className="la la-heart" /> Like</a>
+                                      {/* <img src="images/liked-img.png" alt /> */}
+                                      <span>{post.likes && post.likes.length}</span>
+                                    </li> 
+                                    <li><a href="#" className="com"><img src="images/com.png" alt /> Comment {post.comments && post.comments.length || 0}</a></li>
+                                  </ul>
                                 </div>
                               </div>
-                              <div className="ed-opts">
-                                <a href="#" title className="ed-opts-open"><i className="la la-ellipsis-v" /></a>
-                                <ul className="ed-options">
-                                  <li><a href="#" title>Edit Post</a></li>
-                                  <li><a href="#" title>Unsaved</a></li>
-                                  <li><a href="#" title>Unbid</a></li>
-                                  <li><a href="#" title>Close</a></li>
-                                  <li><a href="#" title>Hide</a></li>
-                                </ul>
-                              </div>
-                            </div>
-                            <div className="epi-sec">
-                              <ul className="descp">
-                                <li><span>Epic Coder</span></li>
-                                <li><span>India</span></li>
-                              </ul>
-                              <ul className="bk-links">
-                                <li><a href="#" title><i className="la la-bookmark" /></a></li>
-                                <li><a href="#" title><i className="la la-envelope" /></a></li>
-                              </ul>
-                            </div>
-                            <div className="job_descp">
-                              <h3>Programming in PHP Notes</h3>
-                              <ul className="job-dt">
-                                <li><a href="#" title>SRM IST</a></li>
-                                <li><span>7th sem</span></li>
-                              </ul>
-                              <p>If you want to be Pro in PHP programming get ahead with the Best material that are taught in SRM... <a href="#" title>view more</a></p>
-                              <button style={{marginLeft:'0px'}}className="common_button_style button_padding_margin">View</button>
-                              <button className="common_button_style button_padding_margin">Download</button>
-                              <ul className="skill-tags">
-                                <li><a href="#" title>#SRM</a></li>
-                                <li><a href="#" title>#PHP</a></li>
-                                <li><a href="#" title>#7th_SEM</a></li>
-                                <li><a href="#" title>#15SE302</a></li>
-                                <li><a href="#" title>#CLASS_NOTES</a></li> 	
-                              </ul>
-                            </div>
-                            <div className="job-status-bar">
-                              <ul className="like-com">
-                                <li>
-                                  <a href="#"><i className="la la-heart" /> Like</a>
-                                  {/* <img src="images/liked-img.png" alt /> */}
-                                  <span>25</span>
-                                </li> 
-                                <li><a href="#" title className="com"><img src="images/com.png" alt /> Comment 15</a></li>
-                              </ul>
-                              <a><i className="la la-eye" />Views 50</a>
-                            </div>
-                          </div>{/*post-bar end*/}
+                              );
+                            })
+                          }
                         
                           <div className="post-bar">
                             <div className="post_topbar">
@@ -207,13 +236,13 @@ return(
                                 </div>
                               </div>
                               <div className="ed-opts">
-                                <a href="#" title className="ed-opts-open"><i className="la la-ellipsis-v" /></a>
+                                <a href="#" className="ed-opts-open"><i className="la la-ellipsis-v" /></a>
                                 <ul className="ed-options">
-                                  <li><a href="#" title>Edit Post</a></li>
-                                  <li><a href="#" title>Unsaved</a></li>
-                                  <li><a href="#" title>Unbid</a></li>
-                                  <li><a href="#" title>Close</a></li>
-                                  <li><a href="#" title>Hide</a></li>
+                                  <li><a href="#">Edit Post</a></li>
+                                  <li><a href="#">Unsaved</a></li>
+                                  <li><a href="#">Unbid</a></li>
+                                  <li><a href="#">Close</a></li>
+                                  <li><a href="#">Hide</a></li>
                                 </ul>
                               </div>
                             </div>
@@ -223,18 +252,18 @@ return(
                                 <li><span>India</span></li>
                               </ul>
                               <ul className="bk-links">
-                                <li><a href="#" title><i className="la la-bookmark" /></a></li>
-                                <li><a href="#" title><i className="la la-envelope" /></a></li>
-                                {/* <li><a href="#" title className="bid_now">Bid Now</a></li> */}
+                                <li><a href="#"><i className="la la-bookmark" /></a></li>
+                                <li><a href="#"><i className="la la-envelope" /></a></li>
+                                {/* <li><a href="#" className="bid_now">Bid Now</a></li> */}
                               </ul>
                             </div>
                             <div className="job_descp">
                               <h3>WEB PROGRAMMING MATERIAL</h3>
                               <ul className="job-dt">
-                                <li><a href="#" title>SRM IST</a></li>
+                                <li><a href="#">SRM IST</a></li>
                                 <li><span>7th SEM</span></li>
                               </ul>
-                              <p>If you want to be Pro in PHP programming get ahead with the Best material that are taught in SRM... <a href="#" title>view more</a></p>
+                              <p>If you want to be Pro in PHP programming get ahead with the Best material that are taught in SRM... <a href="#">view more</a></p>
                               <button style={{marginLeft:'0px'}}className="common_button_style button_padding_margin">View</button>
                               <button className="common_button_style button_padding_margin">Download</button>
                               <ul className="skill-tags">
@@ -257,127 +286,7 @@ return(
                               <a><i className="la la-eye" />Views 50</a>
                             </div>
                           </div>{/*post-bar end*/}
-                          <div className="posty">
-                            <div className="post-bar no-margin">
-                              <div className="post_topbar">
-                                <div className="usy-dt">
-                                  {/* <img src="images/resources/us-pc2.png" alt /> */}
-                                  <div className="usy-name">
-                                    <h3>John Doe</h3>
-                                    <span>3 min ago</span>
-                                  </div>
-                                </div>
-                                <div className="ed-opts">
-                                  <a href="#" title className="ed-opts-open"><i className="la la-ellipsis-v" /></a>
-                                  <ul className="ed-options">
-                                    <li><a href="#" title>Edit Post</a></li>
-                                    <li><a href="#" title>Unsaved</a></li>
-                                    <li><a href="#" title>Unbid</a></li>
-                                    <li><a href="#" title>Close</a></li>
-                                    <li><a href="#" title>Hide</a></li>
-                                  </ul>
-                                </div>
-                              </div>
-                              <div className="epi-sec">
-                                <ul className="descp">
-                                  <li><span>Epic Coder</span></li>
-                                  <li><span>India</span></li>
-                                </ul>
-                                <ul className="bk-links">
-                                  <li><a href="#" title><i className="la la-bookmark" /></a></li>
-                                  <li><a href="#" title><i className="la la-envelope" /></a></li>
-                                </ul>
-                              </div>
-                              <div className="job_descp">
-                                <h3>ADVANCED CALCULUS</h3>
-                                <ul className="job-dt">
-                                  <li><a href="#" title>SRM IST</a></li>
-                                  <li><span>2nd SEM</span></li>
-                                </ul>
-                                <p>If you want to be Pro in PHP programming get ahead with the Best material that are taught in SRM... <a href="#" title>view more</a></p>
-                                <button style={{marginLeft:'0px'}}className="common_button_style button_padding_margin">View</button>
-                              <button className="common_button_style button_padding_margin">Download</button>
-                                <ul className="skill-tags">
-                                  <li><a href="#" title>#SRM</a></li>
-                                  <li><a href="#" title>#MATHS</a></li>
-                                  <li><a href="#" title>#15MA102</a></li>
-                                  <li><a href="#" title>#2ND_SEM</a></li>	
-                                </ul>
-                              </div>
-                              <div className="job-status-bar">
-                                <ul className="like-com">
-                                  <li>
-                                    <a href="#"><i className="la la-heart" /> Like</a>
-                                    {/* <img src="images/liked-img.png" alt /> */}
-                                    <span>25</span>
-                                  </li> 
-                                  <li><a href="#" title className="com"> Comment 15</a></li>
-                                </ul>
-                                <a><i className="la la-eye" />Views 50</a>
-                              </div>
-                            </div>{/*post-bar end*/}
-                            <div className="comment-section">
-                              <div className="plus-ic">
-                                <i className="la la-plus" />
-                              </div>
-                              <div className="comment-sec">
-                                <ul>
-                                  <li>
-                                    <div className="comment-list">
-                                      <div className="bg-img">
-                                        {/* <img src="images/resources/bg-img1.png" alt /> */}
-                                      </div>
-                                      <div className="comment">
-                                        <h3>John Doe</h3>
-                                        <span>3 min ago</span>
-                                        {/* <p>Lorem ipsum dolor sit amet, </p> */}
-                                        <a href="#" title className="active"><i className="fa fa-reply-all" />Reply</a>
-                                      </div>
-                                    </div>{/*comment-list end*/}
-                                    <ul>
-                                      <li>
-                                        <div className="comment-list">
-                                          <div className="bg-img">
-                                            {/* <img src="images/resources/bg-img2.png" alt /> */}
-                                          </div>
-                                          <div className="comment">
-                                            <h3>John Doe</h3>
-                                            <span> 3 min ago</span>
-                                            <p>Hi John </p>
-                                            <a href="#" title><i className="fa fa-reply-all" />Reply</a>
-                                          </div>
-                                        </div>{/*comment-list end*/}
-                                      </li>
-                                    </ul>
-                                  </li>
-                                  <li>
-                                    <div className="comment-list">
-                                      <div className="bg-img">
-                                        {/* <img src="images/resources/bg-img3.png" alt /> */}
-                                      </div>
-                                      <div className="comment">
-                                        <h3>John Doe</h3>
-                                        <span>3 min ago</span>
-                                        {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at.</p> */}
-                                        <a href="#" title><i className="fa fa-reply-all" />Reply</a>
-                                      </div>
-                                    </div>{/*comment-list end*/}
-                                  </li>
-                                </ul>
-                              </div>{/*comment-sec end*/}
-                              <div className="post-comment">
-                                <div className="cm_img">
-                                  {/* <img src="images/resources/bg-img4.png" alt /> */}
-                                </div>
-                                <div className="comment_box">
-                                  <form>
-                                    <input type="text" placeholder="Post a comment" />
-                                    <button type="submit">Send</button>
-                                  </form>
-                                </div>
-                              </div>{/*post-comment end*/}
-                            </div>{/*comment-section end*/}
-                          </div>{/*posty end*/}
+                          {/*posty end*/}
                           <div className="process-comm">
                             <a href="#" title></a>
                           </div>{/*process-comm end*/}
@@ -549,9 +458,10 @@ return(
               </div> 
             </div>
           </main>
+        }
     </div>
-    
-  );
+    );
+  }
 }
 
 export default Main;

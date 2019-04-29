@@ -12,6 +12,7 @@ import Slide from '@material-ui/core/Slide';
 import classNames from 'classnames';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import { createPost } from '../api';
 
 // import './Components/uploader.css';
 
@@ -50,26 +51,52 @@ class Model extends React.Component {
     MaterialName: '',
     SubjectCode: '',
     Keywords: '',
-    Description: ''
+    description: '',
+    title: '',
+    keywords:'',
    };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
+  upload() {
+    const formData = new FormData();
+    const {
+      title,
+      keywords,
+      description
+    } = this.state;
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('keywords', JSON.stringify(keywords.split(",")));
+    const len = this.input.files.length;
+    for (var x = 0; x < len; x++) {
+        formData.append("files", this.input.files[x]);
+    }
+    createPost(formData).then(() => {
+      this.setState({
+        open: false,
+      })
+    })
+  }
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
+  handleTextChange(type, value) {
+    this.setState({
+      [type]: value
+    });
+  }
 
   render() {
     const { classes } = this.props;
+    const {
+      title,
+      keywords,
+      description
+    } = this.state;
     return (
       <div>
-        <Button className="common_button_style" onClick={this.handleClickOpen}>
+        <Button className="common_button_style" onClick={() => {
+          this.setState({
+            open: true
+          })
+          }}>
           Post material
         </Button>
         {/* <Button className='model-align' variant="outlined" color="primary" onClick={this.handleClickOpen}>
@@ -78,75 +105,60 @@ class Model extends React.Component {
         <Dialog
           fullScreen
           open={this.state.open}
-          onClose={this.handleClose}
+          onClose={() => {
+            this.setState({
+              open: false,
+            })
+
+          }}
           TransitionComponent={Transition}
         >
           <AppBar className={classes.appBar}>
             <Toolbar>
-              <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
+              <IconButton color="inherit" onClick={() => {
+                this.setState({
+                  open: false,
+                })
+                }} aria-label="Close">
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6" color="inherit" className={classes.flex}>
                 Contribute for Others.
               </Typography>
-              <Button color="inherit" onClick={this.handleClose}>
+              <Button color="inherit" onClick={() => {
+                  this.upload();
+                }}>
                 Upload
               </Button>
             </Toolbar>
           </AppBar>
           <form style={{marginLeft:'30px',marginRight:'50px'}} className={classes.container} noValidate autoComplete="off">
-         <div>
-         <TextField
-          id="outlined-full-width"
-          label="UniversityName"
-          className={classes.textField}
-          value={this.state.UniversityName}
-          onChange={this.handleChange('UniversityName')}
-          margin="normal"
-          variant="outlined"
-          fullWidth
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-         </div>
           <div>
           <TextField
-          id="outlined-full-width"
-          label="MaterialName"
-          className={classes.textField}
-          value={this.state.MaterialName}
-          onChange={this.handleChange('MaterialName')}
-          margin="normal"
-          variant="outlined"
-          fullWidth
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-          </div>
-          <div>
-          <TextField
-          id="outlined-full-width"
-          label="SubjectCode"
-          className={classes.textField}
-          value={this.state.SubjectCode}
-          onChange={this.handleChange('SubjectCode')}
-          margin="normal"
-          variant="outlined"
-          fullWidth
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
+            label="Title"
+            id="title"
+            className={classes.textField}
+            value={title}
+            onChange={({ target }) => {
+              this.handleTextChange('title', target.value);
+            }}
+            margin="normal"
+            variant="outlined"
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
           </div>
          <div>
          <TextField
-          id="outlined-full-width"
           label="Keywords"
           className={classes.textField}
-          value={this.state.Keywords}
-          onChange={this.handleChange('Keywords')}
+          value={keywords}
+          onChange={({ target }) => {
+            this.handleTextChange('keywords', target.value);
+          }}
+          id="keywords"
           margin="normal"
           variant="outlined"
           fullWidth
@@ -160,8 +172,10 @@ class Model extends React.Component {
           id="outlined-full-width"
           label="Description"
           className={classes.textField}
-          value={this.state.Description}
-          onChange={this.handleChange('Description')}
+          value={description}
+          onChange={({ target }) => {
+            this.handleTextChange('description', target.value);
+          }}
           margin="normal"
           variant="outlined"
           fullWidth
@@ -172,8 +186,20 @@ class Model extends React.Component {
          </div>
          </form>
          <div >
-         <button style={{float:'left',marginLeft:'40px',marginTop:'10px', padding:'20px',maxWidth:'50%'}}>Link</button>
-         <button style={{float:'left',marginLeft:'3px',marginTop:'10px',padding:'20px',maxWidth:'50%'}}>Upload</button>
+         <button
+            style={{float:'left',marginLeft:'3px',marginTop:'10px',padding:'20px',maxWidth:'50%'}}
+            onClick={() => {
+              if (this.input) {
+                this.input.click();
+              }
+            }}
+          >
+            Upload</button>
+         <input type="file" style={{display: "none"}} ref={el => {
+           if (el) {
+            this.input = el;
+           }
+         }} />
          </div>
           </Dialog>
       </div>

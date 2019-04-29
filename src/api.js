@@ -25,6 +25,7 @@ export const login = (data) =>
     .post(LOGIN_URL, data, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
       }
     })
     .then(res => throwErrIfRequired(res))
@@ -36,16 +37,18 @@ export const register = (data) =>
     .post(REGISTER_URL, data, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
       }
     })
     .then(res => throwErrIfRequired(res))
     .then(({ data }) => data);
 
-export const getOwnProfile = () =>
+export const getOwnProfile = (token) =>
   instance
     .get(ME_URL, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       }
     })
     .then(res => throwErrIfRequired(res))
@@ -56,16 +59,18 @@ export const getSpecificUser = (id) =>
     .get(`${USER_SINGLE_URL}${id}`, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
       }
     })
     .then(res => throwErrIfRequired(res))
     .then(({ data }) => data);
 
-export const followKeyWord = (id) =>
+export const followKeyWord = (id, token) =>
   instance
     .get(`${USER_FOLLOW_URL}${id}`, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       }
     })
     .then(res => throwErrIfRequired(res))
@@ -73,7 +78,11 @@ export const followKeyWord = (id) =>
 
 export const updateProfilePicture = (formData) =>
   instance
-    .post(USER_PROFILE_PICTURE_URL, formData)
+    .post(USER_PROFILE_PICTURE_URL, formData, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
+      }
+    })
     .then(res => throwErrIfRequired(res))
     .then(({ data }) => data);
 // should be text and postID
@@ -82,16 +91,18 @@ export const createComment = (data) =>
     .post(COMMENT_CREATE_URL, data, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
       }
     })
     .then(res => throwErrIfRequired(res))
     .then(({ data }) => data);
 
-export const getFeed = () =>
+export const getFeed = (token) =>
   instance
     .get(FEED_URL, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       }
     })
     .then(res => throwErrIfRequired(res))
@@ -102,6 +113,7 @@ export const keywordSearch = (text) =>
     .get(`${KEYWORD_SEARCH_URL}${text}`, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
       }
     })
     .then(res => throwErrIfRequired(res))
@@ -112,16 +124,18 @@ export const postsByKeyWord = (id) =>
     .get(`${POST_KEYWORD_URL}${id}`, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
       }
     })
     .then(res => throwErrIfRequired(res))
     .then(({ data }) => data);
 
-export const likeAPost = (id) =>
+export const likeAPost = (id, token) =>
   instance
     .get(`${POST_LIKE_URL}${id}`, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       }
     })
     .then(res => throwErrIfRequired(res))
@@ -130,6 +144,11 @@ export const likeAPost = (id) =>
 // should be formdata and contain title, description and files
 export const createPost = (data) =>
   instance
-    .post(POST_CREATE_URL, data)
+    .post(POST_CREATE_URL, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
+      }
+    })
     .then(res => throwErrIfRequired(res))
     .then(({ data }) => data);

@@ -4,6 +4,11 @@ import './index.css';
 import App from './App';
 import 'tachyons'; 
 import * as serviceWorker from './serviceWorker';
+// import { whyDidYouUpdate } from 'why-did-you-update';
+
+// if (process.env.NODE_ENV !== "production") {
+//   whyDidYouUpdate(React);
+// }
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

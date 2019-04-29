@@ -20,6 +20,7 @@ export const reducer = (
   state = initalData,
   action,
 ) => {
+  console.log(action);
   switch(action.type) {
     case 'error':
       return {
@@ -55,24 +56,24 @@ export const reducer = (
 
 
 export const setError = (dispatch) => message => {
-  dispatch(setError({
+  dispatch({
     type: 'error',
     message,
-  }))
+  })
 };
 
 export const setLoading = (dispatch) => () => {
-  dispatch(setError({
+  dispatch({
     type: 'loading',
     loading: true,
-  }))
+  });
 };
 
 export const setLoaded = (dispatch) => () => {
-  dispatch(setError({
+  dispatch({
     type: 'loading',
     loading: false,
-  }))
+  });
 };
 
 export const setToken = (dispatch) => token => {
@@ -83,10 +84,10 @@ export const setToken = (dispatch) => token => {
   })
 }
 
-export const setUser = (dispatch) => async () => {
+export const setUser = (dispatch) => async (token) => {
   setLoading(dispatch)();
   try {
-    const user = await getOwnProfile();
+    const user = await getOwnProfile(token);
     dispatch({
       type: 'setUser',
       user,
@@ -94,7 +95,6 @@ export const setUser = (dispatch) => async () => {
     setLoaded(dispatch)();
   } catch (e) {
     setLoaded(dispatch)();
-    setError(dispatch)(e.message);
   }
 }
 
@@ -102,7 +102,12 @@ export const loginUser = (dispatch) => async ({ email, password }) => {
   setLoading(dispatch)();
   try {
     const { token } = await login({ email, password });
-    setToken(dispatch)(token);
+    console.log(token);
+    localStorage.setItem('token', token);
+    dispatch({
+      type: 'setToken',
+      token,
+    })
     setLoaded(dispatch)();
     return true;
   } catch (e) {
@@ -119,7 +124,6 @@ export const registerUser = (dispatch) => async (body) => {
     setLoaded(dispatch)();
     return true;
   } catch (e) {
-    setLoaded(dispatch)();
     setError(dispatch)(e.message);
   }
   return false;
@@ -133,10 +137,10 @@ export const signOut = (dispatch) => () => {
   })
 }
 
-export const setFeed = (dispatch) => async (feedType) => {
+export const setFeed = (dispatch) => async (token, feedType) => {
   setLoading(dispatch)();
   try {
-    const { posts, suggestions } = await getFeed();
+    const { posts, suggestions } = await getFeed(token);
     dispatch({
       type: 'setFeed',
       feedType,
@@ -146,6 +150,6 @@ export const setFeed = (dispatch) => async (feedType) => {
     setLoaded(dispatch)();
   } catch (e) {
     setLoaded(dispatch)();
-    setError(dispatch)();
+    setError(dispatch)(e.message);
   }
 }
