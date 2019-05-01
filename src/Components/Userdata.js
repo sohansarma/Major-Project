@@ -7,6 +7,7 @@ import moment from 'moment';
 // import Button from '@material-ui/core/Button';
 import { getOwnProfile, getFeed, likeAPost, followKeyWord } from '../api';
 import download from 'downloadjs';
+import Card from './KeywordsFollowing';
 
 const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
   const byteCharacters = atob(b64Data);
@@ -113,7 +114,7 @@ class Main extends React.Component {
                               <h3>{user.name}</h3>
                             </div>
                           </div>{/*user-profile end*/}
-                          <ul className="user-fw-status">
+                          <ul className="user-fw-status" onClick={Card}>
                             <li>
                               <h4>Following</h4>
                               <span>{user.following && user.following.length}</span>

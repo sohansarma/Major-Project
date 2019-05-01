@@ -5380,3 +5380,8 @@ a:hover {
     /* justify-content: flex-end; */
     width: 100%;
 }
+
+.nav_border{
+	/* border-bottom: 1px solid rgba(38,38,38,0.5); */
+	box-shadow: 10px 10px 5px rgba(38,38,38,0.05);
+}
