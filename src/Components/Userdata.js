@@ -114,7 +114,7 @@ class Main extends React.Component {
                               <h3>{user.name}</h3>
                             </div>
                           </div>{/*user-profile end*/}
-                          <ul className="user-fw-status" onClick={Card}>
+                          <ul className="user-fw-status pointer" onClick={Card}>
                             <li>
                               <h4>Following</h4>
                               <span>{user.following && user.following.length}</span>
