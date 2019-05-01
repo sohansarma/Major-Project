@@ -171,19 +171,21 @@ class Main extends React.Component {
                                 <div className="post_topbar">
                                   <div className="usy-dt">
                                     <div className="usy-name">
+                                    <div className="d-flex">
                                     <img src="images/com.png" alt="i"/>
-                                      <h3>{post.postedBy.name}</h3>
-                                      <span>{moment(post.createdAt).fromNow()}</span>
+                                      <div>{post.postedBy.name}</div>
+                                      </div>
+                                      <span style={{marginLeft:'27px'}}>{moment(post.createdAt).fromNow()}</span>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="job_descp">
-                                  <h3>{post.title}</h3>
-                                  <ul className="job-dt">
-                                    <li><a href="#">{post.postedBy.college || ''}</a></li>
-                                    <li><span>{post.postedBy.semester || ''}</span></li>
-                                  </ul>
-                                  <p>{post.description}</p>
+                                  <div className="d-flex justify-content-start">{post.title}</div>
+                                  {/* <ul className="job-dt">
+                                    <li>{post.postedBy.college}</li>
+                                    <li><span>{post.postedBy.semester}</span></li>
+                                  </ul> */}
+                                  <div className="d-flex justify-content-start">{post.description}</div>
                                   {post.files && post.files.length &&
                                     <button
                                       onClick={() => {
@@ -194,7 +196,7 @@ class Main extends React.Component {
                                       }}
                                       className="common_button_style button_padding_margin">Download</button>  
                                   }
-                                  <ul className="skill-tags">
+                                  {/* <ul className="skill-tags">
                                     {post.keywords && post.keywords.length > 0 &&
                                       post.keywords.map(keyword => {
                                         return (
@@ -202,7 +204,7 @@ class Main extends React.Component {
                                         )
                                       })  
                                     } 	
-                                  </ul>
+                                  </ul> */}
                                 </div>
                                 <div className="job-status-bar">
                                   <ul className="like-com">
@@ -212,9 +214,10 @@ class Main extends React.Component {
                                           const token = localStorage.getItem("token");
                                           likeAPost(post._id, token);
                                         }}
-                                      ><i className="la la-heart" /> Like</a>
+                                      >
+                                      Like</a>
                                       {/* <img src="images/liked-img.png" alt /> */}
-                                      <span>{post.likes && post.likes.length}</span>
+                                      {/* <span>{post.likes && post.likes.length}</span> */}
                                     </li> 
                                     <li><a href="#" className="com"> Comment {post.comments && post.comments.length || 0}</a></li>
                                   </ul>
