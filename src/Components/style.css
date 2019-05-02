@@ -804,10 +804,12 @@ main {
 /* ============= Suggestions ============ */
 
 .sd-title {
-	float: left;
+	display: flex;
+	justify-content: center;
 	width: 100%;
 	padding: 20px;
 	border-bottom: 1px solid #e5e5e5;
+	border-top: 1px solid #e5e5e5;
 	position: relative;
 }
 .sd-title h3 {
@@ -830,7 +832,8 @@ main {
 	padding: 13px 0 30px 0;
 }
 .suggestion-usd {
-	float: left;
+	display: flex;
+	justify-content: center;
 	width: 100%;
 	padding: 15px 20px;
 }
@@ -1741,7 +1744,8 @@ main {
 	padding: 20px 20px;
 }
 .job-info {
-	float: left;
+	display: flex;
+	justify-content: center;
 	width: 100%;
 	margin-bottom: 22px;
 }
@@ -5347,7 +5351,7 @@ a:hover {
 	border-radius: 4px!important;
 	border: 1px solid rgba(63,64,150)!important;
 	background-color: rgba(63,64,150)!important;
-	color: #ffffff;
+	color: #ffffff!important;
 }
 .common_button_style:hover{
 	background-color: rgba(63,64,150,0.05)!important;

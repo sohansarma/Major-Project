@@ -173,10 +173,10 @@ class Main extends React.Component {
                                   <div className="usy-dt">
                                     <div className="usy-name">
                                     <div className="d-flex">
-                                    <img src="images/com.png" alt="i"/>
+                                
                                       <div>{post.postedBy.name}</div>
                                       </div>
-                                      <span style={{marginLeft:'27px'}}>{moment(post.createdAt).fromNow()}</span>
+                                      <span>{moment(post.createdAt).fromNow()}</span>
                                     </div>
                                   </div>
                                 </div>
@@ -210,17 +210,16 @@ class Main extends React.Component {
                                 <div className="job-status-bar">
                                   <ul className="like-com">
                                     <li>
-                                      <a
+                                      <div className="pointer"
                                         onClick={() => {
                                           const token = localStorage.getItem("token");
                                           likeAPost(post._id, token);
                                         }}
                                       >
-                                      Like</a>
+                                      Like</div>
                                       {/* <img src="images/liked-img.png" alt /> */}
                                       {/* <span>{post.likes && post.likes.length}</span> */}
                                     </li> 
-                                    <li><a href="#" className="com"> Comment {post.comments && post.comments.length || 0}</a></li>
                                   </ul>
                                 </div>
                               </div>
@@ -252,49 +251,39 @@ class Main extends React.Component {
                           </div>
                           <div className="jobs-list">
                             <div className="job-info">
-                              <div className="job-details">
+                              <div className="job-details pointer">
                                 <h3>PROGRAMMING IN PHP</h3>
                                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p> */}
                               </div>
-                              <div className="hr-rate">
-                                <span>SRM IST</span>
-                              </div>
+                  
                             </div>{/*job-info end*/}
                             <div className="job-info">
-                              <div className="job-details">
+                              <div className="job-details pointer">
                                 <h3>ADVANCED CALCULUS</h3>
                                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p> */}
                               </div>
-                              <div className="hr-rate">
-                                <span>SRM IST</span>
-                              </div>
+                          
                             </div>{/*job-info end*/}
                             <div className="job-info">
-                              <div className="job-details">
+                              <div className="job-details pointer">
                                 <h3>WEB PROGRAMMING</h3>
                                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p> */}
                               </div>
-                              <div className="hr-rate">
-                                <span>SRM IST</span>
-                              </div>
+                            
                             </div>{/*job-info end*/}
                             <div className="job-info">
-                              <div className="job-details">
-                                <h3>DBMS</h3>
+                              <div className="job-details pointer">
+                                <h3>Machine Learning</h3>
                                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p> */}
                               </div>
-                              <div className="hr-rate">
-                                <span>SRM IST</span>
-                              </div>
+                    
                             </div>{/*job-info end*/}
                             <div className="job-info">
-                              <div className="job-details">
+                              <div className="job-details pointer">
                                 <h3>COMPUTER FORENSICS</h3>
                                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p> */}
                               </div>
-                              <div className="hr-rate">
-                                <span>SRM IST</span>
-                              </div>
+                        
                             </div>{/*job-info end*/}
                           </div>{/*jobs-list end*/}
                         </div>{/*widget-jobs end*/}
@@ -309,27 +298,21 @@ class Main extends React.Component {
                                 <h3>Senior Product Designer</h3>
                                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p> */}
                               </div>
-                              <div className="hr-rate">
-                                <span>$25/hr</span>
-                              </div>
+                              
                             </div>{/*job-info end*/}
                             <div className="job-info">
                               <div className="job-details">
                                 <h3>Senior UI / UX Designer</h3>
                                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p> */}
                               </div>
-                              <div className="hr-rate">
-                                <span>$25/hr</span>
-                              </div>
+                            
                             </div>{/*job-info end*/}
                             <div className="job-info">
                               <div className="job-details">
                                 <h3>Junior Seo Designer</h3>
                                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p> */}
                               </div>
-                              <div className="hr-rate">
-                                <span>$25/hr</span>
-                              </div>
+                    
                             </div>{/*job-info end*/}
                           </div>{/*jobs-list end*/}
                         </div>{/*widget-jobs end*/}
@@ -340,12 +323,12 @@ class Main extends React.Component {
                           </div>{/*sd-title end*/}
                           <div className="suggestions-list">
                             <div className="suggestion-usd">
-                              <img src="images/resources/s1.png" alt />
+                            
                               <div className="sgt-text">
                                 <h4>Jessica William</h4>
                                 <span>Graphic Designer</span>
                               </div>
-                              <span><i className="la la-plus" /></span>
+                              
                             </div>
                             <div className="suggestion-usd">
                               {/* <img src="images/resources/s2.png" alt /> */}
@@ -353,7 +336,7 @@ class Main extends React.Component {
                                 <h4>John Doe</h4>
                                 <span>PHP Developer</span>
                               </div>
-                              <span><i className="la la-plus" /></span>
+                              
                             </div>
                             <div className="suggestion-usd">
                               {/* <img src="images/resources/s3.png" alt /> */}
@@ -361,7 +344,7 @@ class Main extends React.Component {
                                 <h4>Poonam</h4>
                                 <span>Wordpress Developer</span>
                               </div>
-                              <span><i className="la la-plus" /></span>
+                              
                             </div>
                             <div className="suggestion-usd">
                               {/* <img src="images/resources/s4.png" alt /> */}
@@ -369,7 +352,7 @@ class Main extends React.Component {
                                 <h4>Bill Gates</h4>
                                 <span>C &amp; C++ Developer</span>
                               </div>
-                              <span><i className="la la-plus" /></span>
+                              
                             </div>
                             <div className="suggestion-usd">
                               {/* <img src="images/resources/s5.png" alt /> */}
@@ -377,7 +360,7 @@ class Main extends React.Component {
                                 <h4>Jessica William</h4>
                                 <span>Graphic Designer</span>
                               </div>
-                              <span><i className="la la-plus" /></span>
+                              
                             </div>
                             <div className="suggestion-usd">
                               {/* <img src="images/resources/s6.png" alt /> */}
@@ -385,7 +368,7 @@ class Main extends React.Component {
                                 <h4>John Doe</h4>
                                 <span>PHP Developer</span>
                               </div>
-                              <span><i className="la la-plus" /></span>
+                              
                             </div>
                             <div className="view-more">
                               <a href="#" title>View More</a>
